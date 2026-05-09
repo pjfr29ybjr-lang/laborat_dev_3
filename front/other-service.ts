@@ -65,8 +65,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { Favorite, ApiResponse } from '../../shared/models/index';
+import { environment } from './environment';
+import { Favorite, ApiResponse } from './index';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {

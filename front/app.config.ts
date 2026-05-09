@@ -3,8 +3,8 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import { jwtInterceptor } from './core/interceptors/interceptors';
-import { errorInterceptor } from './core/interceptors/interceptors';
+import { jwtInterceptor } from './interceptors';
+import { errorInterceptor } from './interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
 
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/guards';
-import { publicGuard } from './core/guards/guards';
-import { adminGuard } from './core/guards/guards';
+import { authGuard } from './guards';
+import { publicGuard } from './guards';
+import { adminGuard } from './guards';
 
 export const routes: Routes = [
   {

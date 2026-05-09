@@ -3,8 +3,8 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { User, ApiResponse } from '../../shared/models/index';
+import { environment } from './environment';
+import { User, ApiResponse } from './index';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

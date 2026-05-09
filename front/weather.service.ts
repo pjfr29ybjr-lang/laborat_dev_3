@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { CurrentWeather, Forecast, SearchHistory, ApiResponse } from '../../shared/models/index';
+import { environment } from './environment';
+import { CurrentWeather, Forecast, SearchHistory, ApiResponse } from './index';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
