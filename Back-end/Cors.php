@@ -1,0 +1,25 @@
+<?php
+/**
+ * config/cors.php
+ * Configura os cabeçalhos CORS para comunicação com o frontend Angular.
+ */
+
+declare(strict_types=1);
+
+$allowedOrigins = [FRONTEND_URL, 'http://localhost:4200'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+if (in_array($origin, $allowedOrigins, true)) {
+    header("Access-Control-Allow-Origin: $origin");
+}
+
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Max-Age: 86400');
+
+// Preflight OPTIONS → responde imediatamente sem processar rota
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
