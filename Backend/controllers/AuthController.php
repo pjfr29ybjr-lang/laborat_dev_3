@@ -1,6 +1,11 @@
 <?php
 namespace Controllers;
 
+// --- ESTAS LINHAS SÃO A SOLUÇÃO ---
+// Elas dizem ao PHP onde encontrar a base de dados e o modelo de usuário
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/User.php';
+
 use Config\Database;
 use Models\User;
 
@@ -9,9 +14,13 @@ class AuthController {
     private $user;
 
     public function __construct() {
+        // Agora o PHP já sabe o que é "Database" porque fizemos o require_once acima
         $database = new Database();
         $this->db = $database->getConnection();
-        $this->user = new User($this->db);
+        
+        if ($this->db) {
+            $this->user = new User($this->db);
+        }
     }
 
     public function register($data) {
@@ -23,24 +32,10 @@ class AuthController {
             if ($this->user->create()) {
                 return ["status" => 201, "message" => "Utilizador registado com sucesso!"];
             }
-            return ["status" => 500, "message" => "Erro ao registar utilizador."];
+            return ["status" => 500, "message" => "Erro ao gravar no banco de dados."];
         }
         return ["status" => 400, "message" => "Dados incompletos."];
     }
 
-    public function login($data) {
-        if (!empty($data->email) && !empty($data->password)) {
-            $this->user->email = $data->email;
-            
-            if ($this->user->emailExists() && password_verify($data->password, $this->user->password)) {
-                return [
-                    "status" => 200, 
-                    "message" => "Login efetuado!",
-                    "user" => ["id" => $this->user->id, "name" => $this->user->name]
-                ];
-            }
-            return ["status" => 401, "message" => "Credenciais inválidas."];
-        }
-        return ["status" => 400, "message" => "Preencha todos os campos."];
-    }
+    // ... (mantenha a função login se já a tinhas)
 }
