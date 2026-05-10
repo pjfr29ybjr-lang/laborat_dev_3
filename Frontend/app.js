@@ -1,37 +1,27 @@
 import { initNavbar } from './components/navbar.js';
-import { WeatherService } from './services/weather.service.js';
+import { ThemeManager } from './styles/theme.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializa a barra de navegação
+    // 1. Inicializa o Tema
+    ThemeManager.init();
+
+    // 2. Inicializa a Navbar (que contém o botão de tema)
     initNavbar();
 
-    const searchBtn = document.getElementById('search-btn');
-    const cityInput = document.getElementById('city-input');
-    const resultArea = document.getElementById('weather-result');
+    // 3. Configura o botão de troca de tema (está dentro da navbar)
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => ThemeManager.toggle());
+    }
 
-    if (searchBtn) {
-        searchBtn.addEventListener('click', async () => {
-            const city = cityInput.value;
-            
-            if (city) {
-                resultArea.innerHTML = "<p>Buscando...</p>"; // Feedback visual
-                
-                // Busca os dados no "serviço"
-                const data = await WeatherService.getWeatherData(city);
-                
-                // Exibe o card de resultado
-                resultArea.innerHTML = `
-                    <div class="neumorphism" style="margin-top: 20px; text-align: center; animation: fadeIn 0.5s;">
-                        <h2 style="margin-bottom: 10px;">${data.city}</h2>
-                        <p style="font-size: 3rem; font-weight: bold; color: var(--accent);">${data.temp}°C</p>
-                        <p style="text-transform: uppercase; letter-spacing: 1px;">${data.condition}</p>
-                        <hr style="margin: 15px 0; border: none; height: 1px; background: var(--shadow-dark);">
-                        <p>Umidade: ${data.humidity}</p>
-                    </div>
-                `;
-            } else {
-                alert("Por favor, digite o nome de uma cidade.");
-            }
+    // 4. Lógica específica da página de Login (se existir o form)
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("Em breve: Conexão com AuthController.php!");
         });
     }
+    
+    // ... manter a lógica de busca da cidade que fizemos antes ...
 });
