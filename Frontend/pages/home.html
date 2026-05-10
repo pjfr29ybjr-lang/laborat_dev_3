@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chley Weather</title>
+    <!-- Link para o CSS que criaremos a seguir -->
+    <link rel="stylesheet" href="../style/global.css"">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main class="container">
+        <header class="hero">
+            <h1>Previsão do Tempo</h1>
+            <p>Consulte o clima de qualquer cidade do mundo.</p>
+        </header>
+
+        <section id="search-container" class="neumorphism-container">
+            <input type="text" id="city-input" class="neumorphism-inset" placeholder="Digite a cidade...">
+            <button id="search-btn" class="neumorphism-btn">Buscar</button>
+        </section>
+
+        <section id="weather-result"></section>
+    </main>
+
+    <!-- Script principal como Módulo -->
+    <script type="module" src="../app.js"></script>
+</body>
+</html>

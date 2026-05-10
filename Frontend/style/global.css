@@ -1,0 +1,55 @@
+:root {
+    --bg-color: #e0e5ec;
+    --text-color: #31344b;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container { width: 90%; max-width: 800px; padding: 40px 0; }
+
+/* Estilo Neumorphism */
+.neumorphism-container {
+    background: var(--bg-color);
+    box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.neumorphism-inset {
+    flex: 1;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    background: var(--bg-color);
+    box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+    outline: none;
+}
+
+.neumorphism-btn {
+    border: none;
+    padding: 15px 25px;
+    border-radius: 10px;
+    background: var(--bg-color);
+    box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.neumorphism-btn:active {
+    box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+}
