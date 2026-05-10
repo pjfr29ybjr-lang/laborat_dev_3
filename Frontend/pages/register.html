@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Chley Weather - Registro</title>
+    <link rel="stylesheet" href="../style/global.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main class="container" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+        <section class="neumorphism" style="width: 100%; max-width: 400px;">
+            <h2 style="text-align: center; margin-bottom: 20px;">Criar Conta</h2>
+            <form id="register-form" style="display: flex; flex-direction: column; gap: 15px;" action="login.html">
+                <input type="text" placeholder="Nome Completo" class="neumorphism-inset" required>
+                <input type="email" placeholder="Email" class="neumorphism-inset" required>
+                <input type="password" placeholder="Palavra-passe" class="neumorphism-inset" required>
+                <button type="submit" class="neumorphism-btn">Registrar</button>
+                <p style="text-align: center; font-size: 0.9rem;">
+                    Já tem conta? <a href="login.html" style="color: var(--accent);">Entre aqui</a>
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <script type="module" src="../app.js"></script>
+</body>
+</html>

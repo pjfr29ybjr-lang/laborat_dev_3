@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Chley Weather - Dashboard</title>
+    <link rel="stylesheet" href="../style/global.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .stat-card { text-align: center; padding: 20px; }
+        .favorites-list { display: flex; flex-direction: column; gap: 15px; }
+        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <main class="container">
+        <header style="margin-bottom: 30px;">
+            <h1>Bem-vindo, <span id="user-display-name">Utilizador</span></h1>
+            <p>Aqui está o resumo da sua conta e cidades favoritas.</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <aside class="neumorphism">
+                <h3>O meu Perfil</h3>
+                <div style="margin-top: 20px;">
+                    <p><strong>Email:</strong> <span id="user-email">exemplo@mail.com</span></p>
+                    <p><strong>Membro desde:</strong> 2026</p>
+                </div>
+                <button class="neumorphism-btn" style="width: 100%; margin-top: 20px; color: #e74c3c;" id="logout-btn">Sair do Sistema</button>
+            </aside>
+
+            <section class="neumorphism">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Cidades Favoritas</h3>
+                    <div>
+                        <button class="neumorphism-btn" style="font-size: 0.8rem;">Exportar PDF</button>
+                        <button class="neumorphism-btn" style="font-size: 0.8rem;">CSV</button>
+                    </div>
+                </div>
+                
+                <div id="favorites-container" class="favorites-list">
+                    <p style="opacity: 0.6;">Ainda não tens cidades favoritas.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src="../app.js"></script>
+</body>
+</html>
