@@ -5,47 +5,51 @@
     <title>Chley Weather - Dashboard</title>
     <link rel="stylesheet" href="../style/global.css">
     <style>
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 25px;
-            margin-top: 30px;
-        }
-        .stat-card { text-align: center; padding: 20px; }
-        .favorites-list { display: flex; flex-direction: column; gap: 15px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; margin-top: 30px; }
         @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        .neumorphism-item { padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
-    <div id="navbar-container"></div>
+    <main class="container" style="padding: 20px;">
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <select onchange="window.aplicarIdioma(this.value)" class="neumorphism-btn" style="border:none; padding: 5px;">
+                <option value="pt">PT 🇵🇹</option>
+                <option value="en">EN 🇺🇸</option>
+            </select>
+            <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
+    🌓 Modo
+</button>
+        </div>
 
-    <main class="container">
-        <header style="margin-bottom: 30px;">
-            <h1>Bem-vindo, <span id="user-display-name">Utilizador</span></h1>
-            <p>Aqui está o resumo da sua conta e cidades favoritas.</p>
+        <header style="margin-top: 20px;">
+            <h1><span data-i18n="welcome">Bem-vindo</span>, <span id="user-display-name">...</span></h1>
+            <nav style="margin-top: 10px;">
+                <a href="home.html" style="text-decoration: none; font-size: 0.9rem; color: #3498db;">← Voltar para Busca</a>
+            </nav>
         </header>
 
         <div class="dashboard-grid">
-            <aside class="neumorphism">
-                <h3>O meu Perfil</h3>
-                <div style="margin-top: 20px;">
-                    <p><strong>Email:</strong> <span id="user-email">exemplo@mail.com</span></p>
-                    <p><strong>Membro desde:</strong> 2026</p>
-                </div>
-                <button class="neumorphism-btn" style="width: 100%; margin-top: 20px; color: #e74c3c;" id="logout-btn">Sair do Sistema</button>
+            <aside>
+                <section class="neumorphism" style="margin-bottom: 25px; padding: 20px;">
+                    <h3>O meu Perfil</h3>
+                    <div style="margin-top: 15px; font-size: 0.9rem;">
+                        <p><strong>Email:</strong> <span id="user-email">...</span></p>
+                        <p><strong>Status:</strong> <span style="color: #2ecc71;">Online</span></p>
+                    </div>
+                    <button class="neumorphism-btn" id="logout-btn" style="width: 100%; margin-top: 20px; color: #e74c3c;">Sair do Sistema</button>
+                </section>
+
+                <section class="neumorphism" style="padding: 20px;">
+                    <h3 data-i18n="recent">Recentes</h3>
+                    <ul id="history-list" style="list-style:none; padding:0; margin-top:15px;"></ul>
+                </section>
             </aside>
 
-            <section class="neumorphism">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Cidades Favoritas</h3>
-                    <div>
-                        <button class="neumorphism-btn" style="font-size: 0.8rem;">Exportar PDF</button>
-                        <button class="neumorphism-btn" style="font-size: 0.8rem;">CSV</button>
-                    </div>
-                </div>
-                
-                <div id="favorites-container" class="favorites-list">
-                    <p style="opacity: 0.6;">Ainda não tens cidades favoritas.</p>
+            <section class="neumorphism" style="padding: 20px;">
+                <h3 data-i18n="fav">Favoritos</h3>
+                <div id="favorites-container" style="margin-top: 15px;">
+                    <p style="opacity: 0.6; font-size: 0.9rem;">Histórico de buscas salvas aparecerá aqui.</p>
                 </div>
             </section>
         </div>

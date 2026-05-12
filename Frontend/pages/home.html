@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chley Weather</title>
-    <!-- Link para o CSS que criaremos a seguir -->
+    <title>Chley Weather - Home</title>
     <link rel="stylesheet" href="../style/global.css">
 </head>
 <body>
-    <div id="navbar-container"></div>
-
-    <main class="container">
-        <header class="hero">
+    <main class="container" style="padding: 20px;">
+        <header class="hero" style="text-align: center; margin-bottom: 40px;">
             <h1>Previsão do Tempo</h1>
             <p>Consulte o clima de qualquer cidade do mundo.</p>
+            <nav style="margin-top: 15px;">
+                <a href="dashboard.html" class="neumorphism-btn" style="padding: 8px 15px; text-decoration: none; font-size: 0.8rem;">Ver Dashboard</a>
+            </nav>
         </header>
 
-        <section id="search-container" class="neumorphism-container">
-            <input type="text" id="city-input" class="neumorphism-inset" placeholder="Digite a cidade...">
-            <button id="search-btn" class="neumorphism-btn">Buscar</button>
+        <section id="search-container" class="neumorphism" style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <input type="text" id="city-input" class="neumorphism-inset" placeholder="Digite a cidade..." style="flex: 1; padding: 12px; border: none; border-radius: 8px;">
+            <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
+    🌓 Modo
+</button>
+            <button id="search-btn" class="neumorphism-btn" style="padding: 12px 25px;">Buscar</button>
         </section>
 
-        <section id="weather-result"></section>
+        <section id="weather-result" style="margin-top: 30px;"></section>
     </main>
 
-    <!-- Script principal como Módulo -->
     <script type="module" src="../app.js"></script>
 </body>
 </html>

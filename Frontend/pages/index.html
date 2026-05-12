@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chley Weather - Bem-vindo</title>
+    <link rel="stylesheet" href="style/global.css">
+    <style>
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .feature-card {
+            padding: 30px;
+            text-align: center;
+            border-radius: 20px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .logo-animation {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        :root {
+    --bg-color: #e0e5ec;
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+    --accent: #3498db;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', sans-serif;
+    color: #444;
+}
+
+/* O cartão que "sai" da tela */
+.neumorphism {
+    background: var(--bg-color);
+    border-radius: 20px;
+    box-shadow: 9px 9px 16px var(--shadow-dark), 
+                -9px -9px 16px var(--shadow-light);
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* O input que "entra" na tela */
+.neumorphism-inset {
+    background: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: inset 5px 5px 10px var(--shadow-dark), 
+                inset -5px -5px 10px var(--shadow-light);
+    border: none;
+    padding: 15px;
+    outline: none;
+}
+
+/* Botão com efeito de clique real */
+.neumorphism-btn {
+    background: var(--bg-color);
+    border-radius: 12px;
+    box-shadow: 5px 5px 10px var(--shadow-dark), 
+                -5px -5px 10px var(--shadow-light);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.neumorphism-btn:active {
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), 
+                inset -3px -3px 6px var(--shadow-light);
+}
+    </style>
+</head>
+<body>
+    <main class="container">
+        <section class="hero-section">
+            <div class="logo-animation">☁️</div>
+            <h1 style="font-size: 3rem; margin-bottom: 10px;">Chley Weather</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8; max-width: 600px;">
+                A solução meteorológica definitiva para Angola e o mundo. Monitorize o clima com precisão e estilo neumórfico.
+            </p>
+
+            <div class="cta-buttons">
+                <a href="login.html" class="neumorphism-btn" style="padding: 15px 40px; text-decoration: none; font-weight: bold;">Entrar</a>
+                <a href="register.html" class="neumorphism-btn" style="padding: 15px 40px; text-decoration: none; font-weight: bold; color: #3498db;">Criar Conta</a>
+            </div>
+
+            <div class="features-grid">
+                <div class="neumorphism feature-card">
+                    <h3>🌍 Global</h3>
+                    <p>Aceda a dados meteorológicos de qualquer cidade em tempo real.</p>
+                </div>
+                <div class="neumorphism feature-card">
+                    <h3>📊 Dashboard</h3>
+                    <p>Gestão completa de favoritos e histórico de pesquisas.</p>
+                </div>
+                <div class="neumorphism feature-card">
+                    <h3>🌓 Adaptativo</h3>
+                    <p>Suporte total para Modo Escuro e múltiplos idiomas.</p>
+                    <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
+    🌓 Modo
+</button>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 40px; opacity: 0.5; font-size: 0.8rem;">
+            &copy; 2026 Chley Weather - Desenvolvido por A. Rutherford (IPIL)
+        </footer>
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
