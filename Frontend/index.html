@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chley Weather - Login</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/neumorphism.css">
+</head>
+<body>
+    <div id="app" class="auth-page">
+        <main class="auth-container">
+            <div class="neu-card bounce-in" style="max-width: 400px; margin: 80px auto; padding: 2rem;">
+                <h1 style="text-align: center;">Chley Weather</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Palavra-passe</label>
+                        <input type="password" id="password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Entrar</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Novo aqui? <a href="pages/register.html">Crie uma conta</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // Aqui chama a lógica do auth.js que a Claude gerou
+            const success = await Auth.login(email, password);
+            if (success) window.location.href = 'pages/dashboard.html';
+        });
+    </script>
+</body>
+</html>

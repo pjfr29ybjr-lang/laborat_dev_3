@@ -1,32 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="light">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chley Weather - Home</title>
-    <link rel="stylesheet" href="../style/global.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/neumorphism.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
 </head>
 <body>
-    <main class="container" style="padding: 20px;">
-        <header class="hero" style="text-align: center; margin-bottom: 40px;">
-            <h1>Previsão do Tempo</h1>
-            <p>Consulte o clima de qualquer cidade do mundo.</p>
-            <nav style="margin-top: 15px;">
-                <a href="dashboard.html" class="neumorphism-btn" style="padding: 8px 15px; text-decoration: none; font-size: 0.8rem;">Ver Dashboard</a>
-            </nav>
-        </header>
+    <div id="app">
+        <main id="page-main" class="container">
+            <div class="page-content page-enter" style="text-align: center; padding-top: 10vh;">
+                <div class="neu-card" style="padding: 3rem; display: inline-block; max-width: 600px;">
+                    <h1 id="welcome-msg">Bem-vindo ao Chley Weather</h1>
+                    <p style="color: var(--text-secondary); margin: 1.5rem 0;">
+                        O seu sistema avançado de monitorização meteorológica.
+                    </p>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="window.location.href='dashboard.html'">
+                            Ir para o Dashboard
+                        </button>
+                        <button class="btn btn-secondary" id="logout-btn">
+                            Terminar Sessão
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        <section id="search-container" class="neumorphism" style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <input type="text" id="city-input" class="neumorphism-inset" placeholder="Digite a cidade..." style="flex: 1; padding: 12px; border: none; border-radius: 8px;">
-            <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
-    🌓 Modo
-</button>
-            <button id="search-btn" class="neumorphism-btn" style="padding: 12px 25px;">Buscar</button>
-        </section>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/theme.js"></script>
+    <script src="../assets/js/language.js"></script>
 
-        <section id="weather-result" style="margin-top: 30px;"></section>
-    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Proteção de Rota
+            if (!Auth.isAuthenticated()) {
+                window.location.href = '../index.html';
+                return;
+            }
 
-    <script type="module" src="../app.js"></script>
+            // 2. Personalização com o teu nome (A. Rutherford)
+            const user = Auth.getUser();
+            if (user && user.name) {
+                document.getElementById('welcome-msg').innerText = `Bem-vindo, ${user.name.split(' ')[0]}! 👋`;
+            }
+
+            // 3. Lógica de Logout
+            document.getElementById('logout-btn').onclick = () => {
+                Auth.logout();
+                window.location.href = '../index.html';
+            };
+        });
+    </script>
 </body>
 </html>

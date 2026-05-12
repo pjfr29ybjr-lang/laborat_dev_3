@@ -1,60 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="light">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chley Weather - Dashboard</title>
-    <link rel="stylesheet" href="../style/global.css">
-    <style>
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; margin-top: 30px; }
-        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
-        .neumorphism-item { padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    </style>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/neumorphism.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="../assets/css/dark-mode.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
-<body>
-    <main class="container" style="padding: 20px;">
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-            <select onchange="window.aplicarIdioma(this.value)" class="neumorphism-btn" style="border:none; padding: 5px;">
-                <option value="pt">PT 🇵🇹</option>
-                <option value="en">EN 🇺🇸</option>
-            </select>
-            <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
-    🌓 Modo
-</button>
-        </div>
+<body class="dashboard-page">
+    
+    <button id="theme-toggle" class="btn-theme-float">🌓</button>
 
-        <header style="margin-top: 20px;">
-            <h1><span data-i18n="welcome">Bem-vindo</span>, <span id="user-display-name">...</span></h1>
-            <nav style="margin-top: 10px;">
-                <a href="home.html" style="text-decoration: none; font-size: 0.9rem; color: #3498db;">← Voltar para Busca</a>
-            </nav>
-        </header>
-
-        <div class="dashboard-grid">
-            <aside>
-                <section class="neumorphism" style="margin-bottom: 25px; padding: 20px;">
-                    <h3>O meu Perfil</h3>
-                    <div style="margin-top: 15px; font-size: 0.9rem;">
-                        <p><strong>Email:</strong> <span id="user-email">...</span></p>
-                        <p><strong>Status:</strong> <span style="color: #2ecc71;">Online</span></p>
-                    </div>
-                    <button class="neumorphism-btn" id="logout-btn" style="width: 100%; margin-top: 20px; color: #e74c3c;">Sair do Sistema</button>
-                </section>
-
-                <section class="neumorphism" style="padding: 20px;">
-                    <h3 data-i18n="recent">Recentes</h3>
-                    <ul id="history-list" style="list-style:none; padding:0; margin-top:15px;"></ul>
-                </section>
-            </aside>
-
-            <section class="neumorphism" style="padding: 20px;">
-                <h3 data-i18n="fav">Favoritos</h3>
-                <div id="favorites-container" style="margin-top: 15px;">
-                    <p style="opacity: 0.6; font-size: 0.9rem;">Histórico de buscas salvas aparecerá aqui.</p>
-                </div>
-            </section>
+    <main id="page-main" class="container">
+        <div class="loader-container">
+            <div class="spinner"></div>
+            <p>A carregar o sistema...</p>
         </div>
     </main>
 
-    <script type="module" src="../app.js"></script>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/language.js"></script>
+    <script src="../assets/js/theme.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/weather.js"></script>
+    <script src="../assets/js/favorites.js"></script>
+    <script src="../assets/js/export.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa o tema salvo
+            if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+            
+            // Verifica se o utilizador está logado
+            if(!Auth.isAuthenticated()) {
+                window.location.href = '../../index.html';
+                return;
+            }
+
+            // Executa o render do teu módulo profissional
+            Dashboard.render();
+        });
+    </script>
 </body>
 </html>

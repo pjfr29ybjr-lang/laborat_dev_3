@@ -1,0 +1,94 @@
+/* ============================================================
+   Responsive Styles
+   weather-system/frontend/assets/css/responsive.css
+   ============================================================ */
+
+/* ── Tablet ───────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  :root { --sidebar-width: 220px; }
+
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+
+  .page-content { padding: var(--space-6); }
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important;
+  }
+
+  #sidebar {
+    transform: translateX(-100%);
+    z-index: var(--z-overlay);
+    box-shadow: var(--shadow-float);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block !important;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4 { grid-template-columns: 1fr; }
+
+  .page-content { padding: var(--space-4); }
+
+  .weather-hero { padding: var(--space-5); }
+
+  .weather-hero-temp { font-size: 3.5rem; }
+  .weather-hero-icon { font-size: 4rem; }
+
+  .neu-tabs { flex-wrap: wrap; }
+
+  #toast-container {
+    bottom: var(--space-4);
+    right: var(--space-4);
+    left: var(--space-4);
+  }
+
+  .toast { min-width: unset; max-width: 100%; }
+
+  .modal-content {
+    width: 95vw;
+    max-height: 90vh;
+    border-radius: var(--radius-xl);
+  }
+
+  .forecast-item { min-width: 75px; }
+
+  .navbar-actions .btn span { display: none; }
+}
+
+/* ── Small Mobile ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root { --text-base: 0.9375rem; }
+
+  .page-header h1 { font-size: var(--text-2xl); }
+
+  .card, .card-flat { padding: var(--space-4); }
+
+  .neu-stat-value { font-size: var(--text-2xl); }
+}
+
+/* ── Sidebar overlay (mobile only) ───────────────────────── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  z-index: calc(var(--z-overlay) - 1);
+}
+
+/* ── Print ────────────────────────────────────────────────── */
+@media print {
+  #sidebar, #navbar, #toast-container { display: none !important; }
+  .main-content { margin-left: 0 !important; padding-top: 0 !important; }
+  .card, .neu-card { box-shadow: none !important; border: 1px solid #ccc; }
+}

@@ -1,29 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="light">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Chley Weather - Registro</title>
-    <link rel="stylesheet" href="../style/global.css">
+    <title>Chley Weather - Registo</title>
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/neumorphism.css">
 </head>
 <body>
-    <main class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-        <section class="neumorphism" style="width: 100%; max-width: 400px; padding: 30px;">
-            <h2 style="text-align: center; margin-bottom: 20px;">Criar Conta</h2>
-            <form id="register-form" style="display: flex; flex-direction: column; gap: 15px;">
-                <input type="text" id="reg-name" placeholder="Nome Completo" class="neumorphism-inset" required style="padding: 12px; border: none; border-radius: 8px;">
-                <input type="email" id="reg-email" placeholder="Email" class="neumorphism-inset" required style="padding: 12px; border: none; border-radius: 8px;">
-                <input type="password" id="reg-pass" placeholder="Palavra-passe" class="neumorphism-inset" required style="padding: 12px; border: none; border-radius: 8px;">
-                <button type="submit" class="neumorphism-btn" style="padding: 12px; font-weight: bold;">Registrar</button>
-                <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
-    🌓 Modo
-</button>
-                <p style="text-align: center; font-size: 0.9rem; margin-top: 10px;">
-                    Já tem conta? <a href="login.html" style="color: #3498db; text-decoration: none;">Entre aqui</a>
-                </p>
+    <div class="auth-container">
+        <div class="neu-card" style="max-width: 450px; margin: 50px auto; padding: 2rem;">
+            <h2>Criar Conta</h2>
+            <form id="register-form">
+                <input type="text" id="reg-name" placeholder="Nome Completo" class="form-input" required>
+                <input type="email" id="reg-email" placeholder="Email" class="form-input" style="margin-top:1rem" required>
+                <input type="password" id="reg-pass" placeholder="Palavra-passe" class="form-input" style="margin-top:1rem" required>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Registar</button>
             </form>
-        </section>
-    </main>
-
-    <script type="module" src="../app.js"></script>
+            <a href="../index.html" style="display: block; text-align: center; margin-top: 1rem;">Já tenho conta</a>
+        </div>
+    </div>
+    <script src="../assets/js/storage.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        document.getElementById('register-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const userData = {
+                name: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-pass').value
+            };
+            const success = await Auth.register(userData);
+            if (success) window.location.href = '../index.html';
+        };
+    </script>
 </body>
 </html>

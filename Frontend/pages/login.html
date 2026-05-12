@@ -1,28 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="light">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Chley Weather - Login</title>
-    <link rel="stylesheet" href="../style/global.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chley Weather - Entrar</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/global.css">
 </head>
 <body>
-    <main class="container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-        <section class="neumorphism" style="width: 100%; max-width: 400px; padding: 30px;">
-            <h2 style="text-align: center; margin-bottom: 20px;">Entrar</h2>
-            <form id="login-form" style="display: flex; flex-direction: column; gap: 15px;">
-                <input type="email" id="login-email" placeholder="Email" class="neumorphism-inset" required style="padding: 12px; border: none; border-radius: 8px;">
-                <input type="password" id="login-pass" placeholder="Palavra-passe" class="neumorphism-inset" required style="padding: 12px; border: none; border-radius: 8px;">
-                <button type="submit" class="neumorphism-btn" style="padding: 12px; font-weight: bold;">Aceder</button>
-                 <button id="theme-toggle" class="neumorphism-btn" style="padding: 10px; position: fixed; top: 20px; right: 20px; z-index: 1000;">
-    🌓 Modo
-</button>
-                <p style="text-align: center; font-size: 0.9rem; margin-top: 10px;">
-                    Não tem conta? <a href="register.html" style="color: #3498db; text-decoration: none;">Registe-se</a>
+    <div id="app">
+        <main class="auth-container page-enter">
+            <section class="neu-card" style="max-width: 400px; margin: 10vh auto; padding: 2rem;">
+                <h1 style="text-align: center;">Chley Weather</h1>
+                <p style="text-align: center; color: var(--text-secondary);">Faça login para continuar</p>
+                
+                <form id="login-form" style="margin-top: 2rem;">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-input" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Palavra-passe</label>
+                        <input type="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">
+                        Entrar
+                    </button>
+                </form>
+                <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem;">
+                    Não tem conta? <a href="frontend/pages/register.html">Registe-se</a>
                 </p>
-            </form>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
-    <script type="module" src="../app.js"></script>
+    <script src="assets/js/storage.js"></script>
+<script src="assets/js/api.js"></script>
+        // Lógica simples de ligação ao teu auth.js
+        document.getElementById('login-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+            
+            // Simulação de chamada ao teu Auth Module
+            const success = await Auth.login(email, password);
+            if(success) window.location.href = 'frontend/pages/dashboard.html';
+        };
+    </script>
 </body>
 </html>
