@@ -1,39 +1,624 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <title>Chley Weather - Registo</title>
-    <link rel="stylesheet" href="../assets/css/variables.css">
-    <link rel="stylesheet" href="../assets/css/global.css">
-    <link rel="stylesheet" href="../assets/css/neumorphism.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WeatherPro — Criar nova conta">
+  <title>Registrar — WeatherPro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/neumorphism.css">
+  <link rel="stylesheet" href="../assets/css/dark-mode.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <style>
+    body { overflow-x: hidden; }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 900px) {
+      .auth-page { grid-template-columns: 1fr; }
+      .auth-left  { display: none; }
+    }
+
+    /* ── Left decorative panel ──────────────────────────────── */
+    .auth-left {
+      background: linear-gradient(160deg, #0f2027 0%, #1a2535 40%, #203a43 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 4rem 4rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .orb-1 { width: 400px; height: 400px; background: rgba(99,102,241,.2);  top: -100px; right: -100px; animation: float 8s ease-in-out infinite; }
+    .orb-2 { width: 320px; height: 320px; background: rgba(26,115,232,.18); bottom: -80px; left: -80px; animation: float 10s ease-in-out infinite 3s; }
+    .orb-3 { width: 200px; height: 200px; background: rgba(16,185,129,.15); top: 50%; left: 50%; transform:translate(-50%,-50%); animation: float 12s ease-in-out infinite 1.5s; }
+
+    .left-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .step-progress {
+      display: flex; gap: 1rem; margin-bottom: 2.5rem; position: relative;
+    }
+
+    .step-item {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .8rem; color: rgba(255,255,255,.45);
+    }
+
+    .step-item.done   { color: #4ade80; }
+    .step-item.active { color: #fff; }
+
+    .step-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700;
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+
+    .step-item.done   .step-num { background: #4ade80; border-color: #4ade80; color: #fff; }
+    .step-item.active .step-num { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 0 16px rgba(26,115,232,.5); }
+
+    .left-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .left-title .hl {
+      background: linear-gradient(90deg, #34d399, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .left-desc {
+      font-size: .95rem;
+      color: rgba(255,255,255,.55);
+      line-height: 1.75;
+      max-width: 370px;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .left-benefits {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; position: relative;
+    }
+
+    .benefit-chip {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+      padding: .8rem 1rem;
+      font-size: .82rem;
+      color: rgba(255,255,255,.75);
+      display: flex; align-items: center; gap: .5rem;
+    }
+
+    .benefit-chip .bicon {
+      font-size: 1.15rem; flex-shrink: 0;
+    }
+
+    /* ── Right form panel ───────────────────────────────────── */
+    .auth-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: var(--bg-base);
+      min-height: 100vh;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .auth-card-inner {
+      background: var(--bg-card);
+      border-radius: 28px;
+      padding: 2.25rem 2.5rem;
+      box-shadow: var(--shadow-float);
+      border: 1px solid var(--border);
+      animation: scaleIn .35s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    .auth-header { text-align: center; margin-bottom: 1.75rem; }
+    .auth-header .logo { font-size: 2.5rem; display: block; margin-bottom: .5rem; animation: float 4s ease-in-out infinite; }
+    .auth-header h1 { font-size: 1.55rem; font-weight: 800; margin-bottom: .25rem; }
+    .auth-header p  { color: var(--text-secondary); font-size: .875rem; }
+
+    /* Input with icon */
+    .input-wrap { position: relative; }
+    .input-wrap .iicon {
+      position: absolute; left: .9rem; top: 50%; transform: translateY(-50%);
+      font-size: 1rem; opacity: .5; pointer-events: none;
+    }
+    .input-wrap .form-input { padding-left: 2.6rem; }
+    .input-wrap .ieye {
+      position: absolute; right: .75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; font-size: .95rem;
+      opacity: .5; transition: opacity .2s; padding: .2rem .3rem;
+    }
+    .input-wrap .ieye:hover { opacity: 1; }
+
+    /* Password strength */
+    .strength-bar-wrap { margin-top: .5rem; }
+    .strength-bar {
+      height: 5px; border-radius: 999px;
+      background: var(--bg-base);
+      box-shadow: var(--shadow-neu-in);
+      overflow: hidden;
+    }
+    .strength-fill {
+      height: 100%; border-radius: 999px;
+      transition: width .4s ease, background .4s ease;
+    }
+    .strength-label {
+      font-size: .72rem; margin-top: .3rem;
+      font-weight: 600; transition: color .4s;
+    }
+
+    /* Password rules list */
+    .pwd-rules {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: .3rem .75rem;
+      margin-top: .6rem;
+    }
+    .pwd-rule {
+      display: flex; align-items: center; gap: .35rem;
+      font-size: .75rem; color: var(--text-muted);
+      transition: color .25s;
+    }
+    .pwd-rule.ok { color: var(--success); }
+    .pwd-rule .ricon { font-size: .8rem; }
+
+    /* Terms */
+    .terms-row {
+      display: flex; align-items: flex-start; gap: .5rem;
+      margin-bottom: 1.25rem; font-size: .82rem; color: var(--text-secondary);
+    }
+    .terms-row input { margin-top: 2px; accent-color: var(--primary); flex-shrink: 0; }
+    .terms-row a { color: var(--primary); }
+
+    /* Submit */
+    .btn-auth {
+      width: 100%; padding: .9rem;
+      border-radius: 999px; font-size: 1rem; font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #0ab577, var(--primary));
+      color: #fff; border: none; cursor: pointer;
+      transition: all .3s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 6px 24px rgba(10,181,119,.35);
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(10,181,119,.45); }
+    .btn-auth:active { transform: scale(.97); }
+    .btn-auth:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
+
+    /* Alert */
+    .auth-alert {
+      background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.25);
+      border-left: 3px solid var(--danger); border-radius: 10px;
+      color: var(--danger); padding: .7rem 1rem; font-size: .84rem;
+      margin-top: 1rem; display: flex; align-items: center; gap: .5rem;
+    }
+
+    /* Footer */
+    .auth-footer { text-align: center; margin-top: 1.25rem; font-size: .875rem; color: var(--text-secondary); }
+    .auth-footer a { color: var(--primary); font-weight: 600; }
+
+    /* Theme pill */
+    .theme-pill {
+      position: fixed; top: 1.25rem; right: 1.25rem;
+      background: var(--bg-card); border-radius: 999px; padding: .4rem .75rem;
+      box-shadow: var(--shadow-neu-sm); border: 1px solid var(--border);
+      display: flex; align-items: center; gap: .5rem; cursor: pointer;
+      font-size: .8rem; color: var(--text-secondary); transition: var(--transition-base); z-index: 100;
+    }
+    .theme-pill:hover { box-shadow: var(--shadow-neu-out); }
+  </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="neu-card" style="max-width: 450px; margin: 50px auto; padding: 2rem;">
-            <h2>Criar Conta</h2>
-            <form id="register-form">
-                <input type="text" id="reg-name" placeholder="Nome Completo" class="form-input" required>
-                <input type="email" id="reg-email" placeholder="Email" class="form-input" style="margin-top:1rem" required>
-                <input type="password" id="reg-pass" placeholder="Palavra-passe" class="form-input" style="margin-top:1rem" required>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Registar</button>
-            </form>
-            <a href="../index.html" style="display: block; text-align: center; margin-top: 1rem;">Já tenho conta</a>
+
+  <button class="theme-pill" onclick="AppTheme.toggle()">
+    <span id="theme-icon">☀️</span>
+    <span id="theme-label">Claro</span>
+  </button>
+
+  <div class="auth-page">
+
+    <!-- ══ LEFT PANEL ════════════════════════════════════════ -->
+    <div class="auth-left">
+      <div class="left-grid"></div>
+      <div class="auth-orb orb-1"></div>
+      <div class="auth-orb orb-2"></div>
+      <div class="auth-orb orb-3"></div>
+
+      <!-- Passos decorativos -->
+      <div class="step-progress">
+        <div class="step-item done">
+          <div class="step-num">✓</div>
+          <span>Visita</span>
         </div>
+        <div class="step-item active">
+          <div class="step-num">2</div>
+          <span>Registo</span>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <span>Explorar</span>
+        </div>
+      </div>
+
+      <h1 class="left-title">
+        Crie a sua conta<br>e explore o <span class="hl">clima global</span>
+      </h1>
+
+      <p class="left-desc">
+        Junte-se a milhares de utilizadores que acompanham o tempo em tempo real. Registo gratuito, sem cartão de crédito.
+      </p>
+
+      <div class="left-benefits">
+        <div class="benefit-chip"><span class="bicon">🌍</span> 200 000+ cidades</div>
+        <div class="benefit-chip"><span class="bicon">🔒</span> Dados seguros</div>
+        <div class="benefit-chip"><span class="bicon">📱</span> Responsivo</div>
+        <div class="benefit-chip"><span class="bicon">🆓</span> 100% Gratuito</div>
+        <div class="benefit-chip"><span class="bicon">🌙</span> Modo escuro</div>
+        <div class="benefit-chip"><span class="bicon">🌐</span> 3 idiomas</div>
+      </div>
     </div>
-    <script src="../assets/js/storage.js"></script>
-    <script src="../assets/js/api.js"></script>
-    <script src="../assets/js/auth.js"></script>
-    <script>
-        document.getElementById('register-form').onsubmit = async (e) => {
-            e.preventDefault();
-            const userData = {
-                name: document.getElementById('reg-name').value,
-                email: document.getElementById('reg-email').value,
-                password: document.getElementById('reg-pass').value
-            };
-            const success = await Auth.register(userData);
-            if (success) window.location.href = '../index.html';
+
+    <!-- ══ RIGHT FORM PANEL ══════════════════════════════════ -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-inner">
+
+          <div class="auth-header">
+            <span class="logo">🌱</span>
+            <h1>Criar conta grátis</h1>
+            <p>Preencha os dados abaixo para começar</p>
+          </div>
+
+          <form id="register-form" novalidate autocomplete="off">
+
+            <!-- Nome -->
+            <div class="form-group mb-4">
+              <label class="form-label" for="reg-name">Nome completo</label>
+              <div class="input-wrap">
+                <span class="iicon">👤</span>
+                <input type="text" id="reg-name" class="form-input"
+                  placeholder="Seu nome completo"
+                  autocomplete="name" required>
+              </div>
+              <span class="form-error hidden" id="err-name"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group mb-4">
+              <label class="form-label" for="reg-email">Email</label>
+              <div class="input-wrap">
+                <span class="iicon">✉️</span>
+                <input type="email" id="reg-email" class="form-input"
+                  placeholder="seu@email.com"
+                  autocomplete="email" required>
+              </div>
+              <span class="form-error hidden" id="err-email"></span>
+            </div>
+
+            <!-- Senha -->
+            <div class="form-group mb-4">
+              <label class="form-label" for="reg-password">Senha</label>
+              <div class="input-wrap">
+                <span class="iicon">🔒</span>
+                <input type="password" id="reg-password" class="form-input"
+                  placeholder="Crie uma senha forte"
+                  autocomplete="new-password" required
+                  oninput="RegisterPage.checkStrength(this.value)">
+                <button type="button" class="ieye" onclick="RegisterPage.togglePwd('reg-password',this)">👁️</button>
+              </div>
+
+              <!-- Barra de força -->
+              <div class="strength-bar-wrap" id="strength-wrap" style="display:none;">
+                <div class="strength-bar">
+                  <div class="strength-fill" id="strength-fill" style="width:0%;background:var(--danger);"></div>
+                </div>
+                <div class="strength-label" id="strength-label" style="color:var(--danger);"></div>
+              </div>
+
+              <!-- Regras -->
+              <div class="pwd-rules" id="pwd-rules" style="display:none;">
+                <div class="pwd-rule" id="rule-len">  <span class="ricon">○</span> 8+ caracteres</div>
+                <div class="pwd-rule" id="rule-upper"><span class="ricon">○</span> Maiúscula</div>
+                <div class="pwd-rule" id="rule-lower"><span class="ricon">○</span> Minúscula</div>
+                <div class="pwd-rule" id="rule-num">  <span class="ricon">○</span> Número</div>
+                <div class="pwd-rule" id="rule-spec"> <span class="ricon">○</span> Caractere especial</div>
+              </div>
+
+              <span class="form-error hidden" id="err-password"></span>
+            </div>
+
+            <!-- Confirmar senha -->
+            <div class="form-group mb-5">
+              <label class="form-label" for="reg-confirm">Confirmar senha</label>
+              <div class="input-wrap">
+                <span class="iicon">🔐</span>
+                <input type="password" id="reg-confirm" class="form-input"
+                  placeholder="Repita a senha"
+                  autocomplete="new-password" required
+                  oninput="RegisterPage.checkMatch()">
+                <button type="button" class="ieye" onclick="RegisterPage.togglePwd('reg-confirm',this)">👁️</button>
+              </div>
+              <span class="form-error hidden" id="err-confirm"></span>
+            </div>
+
+            <!-- Termos -->
+            <div class="terms-row">
+              <input type="checkbox" id="terms" required>
+              <label for="terms">
+                Concordo com os <a href="#">Termos de Uso</a> e a
+                <a href="#">Política de Privacidade</a> do WeatherPro.
+              </label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-auth" id="reg-btn">
+              <span id="reg-btn-text">Criar minha conta</span>
+            </button>
+
+            <!-- Error alert -->
+            <div class="auth-alert hidden" id="reg-alert">
+              <span>❌</span>
+              <span id="reg-alert-msg"></span>
+            </div>
+
+          </form>
+
+          <p class="auth-footer">
+            Já tem conta?
+            <a href="./login.html">Entrar agora</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /auth-page -->
+
+  <div id="toast-container"></div>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/utils.js"></script>
+
+  <script>
+    const API_BASE = '../backend/public';
+
+    /* ── Tema standalone ─────────────────────────────────────── */
+    const AppTheme = {
+      get()    { return localStorage.getItem('ws_theme') || 'light'; },
+      set(t)   {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('ws_theme', t);
+        document.getElementById('theme-icon').textContent  = t === 'dark' ? '🌙' : '☀️';
+        document.getElementById('theme-label').textContent = t === 'dark' ? 'Escuro' : 'Claro';
+      },
+      toggle() { this.set(this.get() === 'light' ? 'dark' : 'light'); },
+      init()   { this.set(this.get()); }
+    };
+    AppTheme.init();
+
+    /* ── Redirect se já autenticado ──────────────────────────── */
+    if (localStorage.getItem('ws_token')) window.location.href = './dashboard.html';
+
+    /* ── Register Page Controller ────────────────────────────── */
+    const RegisterPage = {
+
+      togglePwd(id, btn) {
+        const inp = document.getElementById(id);
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        btn.textContent = inp.type === 'password' ? '👁️' : '🙈';
+      },
+
+      checkStrength(pwd) {
+        const wrap  = document.getElementById('strength-wrap');
+        const fill  = document.getElementById('strength-fill');
+        const label = document.getElementById('strength-label');
+        const rules = document.getElementById('pwd-rules');
+
+        wrap.style.display  = pwd.length ? 'block' : 'none';
+        rules.style.display = pwd.length ? 'grid' : 'none';
+
+        const checks = {
+          len:   pwd.length >= 8,
+          upper: /[A-Z]/.test(pwd),
+          lower: /[a-z]/.test(pwd),
+          num:   /[0-9]/.test(pwd),
+          spec:  /[\W_]/.test(pwd),
         };
-    </script>
+
+        Object.entries(checks).forEach(([k, ok]) => {
+          const el = document.getElementById(`rule-${k}`);
+          if (!el) return;
+          el.classList.toggle('ok', ok);
+          el.querySelector('.ricon').textContent = ok ? '✓' : '○';
+        });
+
+        const score = Object.values(checks).filter(Boolean).length;
+        const levels = [
+          { w: '20%', c: '#ef4444', t: 'Muito fraca'  },
+          { w: '40%', c: '#f59e0b', t: 'Fraca'        },
+          { w: '60%', c: '#f59e0b', t: 'Razoável'     },
+          { w: '80%', c: '#0ab577', t: 'Forte'        },
+          { w: '100%',c: '#0ab577', t: 'Muito forte'  },
+        ];
+        const lv = levels[score - 1] || levels[0];
+        fill.style.width      = lv.w;
+        fill.style.background = lv.c;
+        label.style.color     = lv.c;
+        label.textContent     = lv.t;
+      },
+
+      checkMatch() {
+        const pwd = document.getElementById('reg-password').value;
+        const con = document.getElementById('reg-confirm').value;
+        const err = document.getElementById('err-confirm');
+        const inp = document.getElementById('reg-confirm');
+        if (con && pwd !== con) {
+          err.textContent = '⚠️ As senhas não coincidem.';
+          err.classList.remove('hidden');
+          inp.style.borderColor = 'var(--danger)';
+        } else {
+          err.classList.add('hidden');
+          inp.style.borderColor = con && pwd === con ? 'var(--success)' : '';
+        }
+      },
+
+      clearErrors() {
+        document.querySelectorAll('.form-error').forEach(el => {
+          el.classList.add('hidden'); el.textContent = '';
+        });
+        document.querySelectorAll('.form-input').forEach(el => {
+          el.style.borderColor = '';
+        });
+        document.getElementById('reg-alert').classList.add('hidden');
+      },
+
+      showErr(id, msg) {
+        const el  = document.getElementById(`err-${id}`);
+        const inp = document.getElementById(`reg-${id}`);
+        if (el)  { el.textContent = `⚠️ ${msg}`; el.classList.remove('hidden'); }
+        if (inp) inp.style.borderColor = 'var(--danger)';
+      },
+
+      setLoading(state) {
+        const btn  = document.getElementById('reg-btn');
+        const text = document.getElementById('reg-btn-text');
+        btn.disabled = state;
+        text.innerHTML = state
+          ? '<span style="width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;"></span> A criar conta...'
+          : 'Criar minha conta';
+      },
+
+      async submit(e) {
+        e.preventDefault();
+        this.clearErrors();
+
+        const name     = document.getElementById('reg-name').value.trim();
+        const email    = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        const confirm  = document.getElementById('reg-confirm').value;
+        const terms    = document.getElementById('terms').checked;
+
+        /* Validação */
+        let ok = true;
+        if (!name || name.length < 2)            { this.showErr('name',     'Nome obrigatório (mínimo 2 caracteres).'); ok = false; }
+        if (!email || !/\S+@\S+\.\S+/.test(email)){ this.showErr('email',    'Email inválido.'); ok = false; }
+        if (!password || password.length < 8)     { this.showErr('password', 'Mínimo 8 caracteres.'); ok = false; }
+        else if (!/[A-Z]/.test(password))          { this.showErr('password', 'Inclua uma letra maiúscula.'); ok = false; }
+        else if (!/[0-9]/.test(password))          { this.showErr('password', 'Inclua pelo menos um número.'); ok = false; }
+        else if (!/[\W_]/.test(password))          { this.showErr('password', 'Inclua um caractere especial.'); ok = false; }
+        if (password !== confirm)                  { this.showErr('confirm',  'As senhas não coincidem.'); ok = false; }
+        if (!terms) {
+          const box = document.getElementById('reg-alert');
+          document.getElementById('reg-alert-msg').textContent = 'Aceite os Termos de Uso para continuar.';
+          box.classList.remove('hidden'); ok = false;
+        }
+        if (!ok) return;
+
+        this.setLoading(true);
+
+        try {
+          const res = await fetch(`${API_BASE}/auth/register`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ name, email, password, password_confirm: confirm }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            const errors = data.errors || {};
+            const map = { name: 'name', email: 'email', password: 'password' };
+            let handled = false;
+            Object.entries(errors).forEach(([field, msgs]) => {
+              if (map[field]) { this.showErr(map[field], msgs[0]); handled = true; }
+            });
+            if (!handled) {
+              const box = document.getElementById('reg-alert');
+              document.getElementById('reg-alert-msg').textContent = data.message || 'Erro ao criar conta.';
+              box.classList.remove('hidden');
+            }
+            return;
+          }
+
+          localStorage.setItem('ws_token', data.data.token);
+          localStorage.setItem('ws_user',  JSON.stringify(data.data.user));
+
+          /* Toast e redirect */
+          const toast = document.createElement('div');
+          toast.className = 'toast toast-success';
+          toast.innerHTML = `<span class="toast-icon">🎉</span><span>Conta criada! Bem-vindo, ${data.data.user.name}!</span>`;
+          document.getElementById('toast-container').appendChild(toast);
+          setTimeout(() => { window.location.href = './dashboard.html'; }, 900);
+
+        } catch (err) {
+          const box = document.getElementById('reg-alert');
+          document.getElementById('reg-alert-msg').textContent = 'Falha de ligação ao servidor.';
+          box.classList.remove('hidden');
+        } finally {
+          this.setLoading(false);
+        }
+      },
+
+      init() {
+        document.getElementById('register-form').addEventListener('submit', e => this.submit(e));
+        /* Limpar erros ao digitar */
+        ['reg-name','reg-email','reg-password','reg-confirm'].forEach(id => {
+          document.getElementById(id)?.addEventListener('input', () => {
+            const field = id.replace('reg-', '');
+            const err   = document.getElementById(`err-${field}`);
+            const inp   = document.getElementById(id);
+            if (err)  { err.classList.add('hidden'); err.textContent = ''; }
+            if (inp)  inp.style.borderColor = '';
+            document.getElementById('reg-alert').classList.add('hidden');
+          });
+        });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => RegisterPage.init());
+  </script>
 </body>
 </html>

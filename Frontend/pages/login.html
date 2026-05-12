@@ -1,51 +1,647 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chley Weather - Entrar</title>
-    <link rel="stylesheet" href="assets/css/variables.css">
-<link rel="stylesheet" href="assets/css/global.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WeatherPro — Entrar na sua conta">
+  <title>Login — WeatherPro</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/global.css">
+  <link rel="stylesheet" href="../assets/css/animations.css">
+  <link rel="stylesheet" href="../assets/css/neumorphism.css">
+  <link rel="stylesheet" href="../assets/css/dark-mode.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <style>
+    /* ── Auth Layout ──────────────────────────────────────── */
+    body { overflow-x: hidden; }
+
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      .auth-page { grid-template-columns: 1fr; }
+      .auth-left  { display: none; }
+    }
+
+    /* ── Left panel — Brand ───────────────────────────────── */
+    .auth-left {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 4rem 4rem 5rem;
+      background: linear-gradient(145deg, #0f1724 0%, #1a2535 50%, #0f2027 100%);
+      overflow: hidden;
+    }
+
+    .auth-left-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .orb-blue  { width: 480px; height: 480px; background: rgba(26,115,232,.25);  top: -120px; left: -120px; animation: float 7s ease-in-out infinite; }
+    .orb-indigo{ width: 350px; height: 350px; background: rgba(99,102,241,.2);   bottom: -80px; right: -80px; animation: float 9s ease-in-out infinite 2s; }
+    .orb-orange{ width: 250px; height: 250px; background: rgba(255,109,59,.15);  top: 45%; left: 40%; animation: float 11s ease-in-out infinite 4s; }
+
+    /* Grid de países / cidades decorativa */
+    .auth-left-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .auth-brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(26,115,232,.15);
+      border: 1px solid rgba(26,115,232,.35);
+      border-radius: 999px;
+      padding: .4rem 1rem;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #93c5fd;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .auth-brand-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    .auth-left-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+
+    .auth-left-title span {
+      background: linear-gradient(135deg, #60a5fa, #a78bfa, #fb923c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .auth-left-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,.6);
+      line-height: 1.7;
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .auth-feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: .875rem;
+      position: relative;
+    }
+
+    .auth-feature-item {
+      display: flex;
+      align-items: center;
+      gap: .875rem;
+      color: rgba(255,255,255,.8);
+      font-size: .9rem;
+    }
+
+    .auth-feature-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* Weather widget decorativo no canto */
+    .auth-weather-widget {
+      position: absolute;
+      bottom: 2.5rem; right: 2.5rem;
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: 1.25rem 1.5rem;
+      color: #fff;
+      min-width: 180px;
+    }
+
+    .auth-weather-widget-city  { font-size: .75rem; opacity: .6; margin-bottom: .3rem; }
+    .auth-weather-widget-temp  { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .auth-weather-widget-desc  { font-size: .8rem; opacity: .7; margin-top: .2rem; }
+    .auth-weather-widget-strip { display: flex; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.1); }
+    .auth-weather-chip         { font-size: .7rem; opacity: .7; display: flex; flex-direction: column; gap: .2rem; }
+    .auth-weather-chip strong  { font-size: .85rem; opacity: 1; color: #fff; }
+
+    /* ── Right panel — Form ───────────────────────────────── */
+    .auth-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      background: var(--bg-base);
+      min-height: 100vh;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .auth-card-inner {
+      background: var(--bg-card);
+      border-radius: 28px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-float);
+      border: 1px solid var(--border);
+      animation: scaleIn .35s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    .auth-header { text-align: center; margin-bottom: 2rem; }
+    .auth-header-logo { font-size: 2.75rem; margin-bottom: .75rem; display: block; animation: float 4s ease-in-out infinite; }
+    .auth-header h1 { font-size: 1.65rem; font-weight: 800; margin-bottom: .35rem; color: var(--text-primary); }
+    .auth-header p  { color: var(--text-secondary); font-size: .9rem; }
+
+    /* Input group com ícone */
+    .input-group { position: relative; }
+    .input-group .input-icon {
+      position: absolute;
+      left: .9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.05rem;
+      pointer-events: none;
+      opacity: .55;
+    }
+    .input-group .form-input { padding-left: 2.6rem; }
+    .input-group .input-eye  {
+      position: absolute;
+      right: .75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      opacity: .55;
+      transition: opacity .2s;
+      padding: .2rem .3rem;
+    }
+    .input-group .input-eye:hover { opacity: 1; }
+
+    /* Remember me / forgot */
+    .auth-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-size: .85rem;
+    }
+    .auth-row label {
+      display: flex; align-items: center; gap: .45rem;
+      color: var(--text-secondary); cursor: pointer;
+    }
+    .auth-row a { color: var(--primary); font-weight: 600; }
+    .auth-row a:hover { text-decoration: underline; }
+
+    /* Submit button */
+    .btn-auth {
+      width: 100%;
+      padding: .9rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, var(--primary), #6366f1);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all .3s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 6px 24px rgba(26,115,232,.4);
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(26,115,232,.5); }
+    .btn-auth:active { transform: scale(.97); }
+    .btn-auth:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
+
+    /* Divider */
+    .auth-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 1.5rem 0;
+      color: var(--text-muted); font-size: .82rem;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border-light);
+    }
+
+    /* Alert box */
+    .auth-alert {
+      background: rgba(239,68,68,.08);
+      border: 1px solid rgba(239,68,68,.25);
+      border-left: 3px solid var(--danger);
+      border-radius: 10px;
+      color: var(--danger);
+      padding: .7rem 1rem;
+      font-size: .84rem;
+      margin-top: 1rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+
+    /* Footer link */
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: .875rem;
+      color: var(--text-secondary);
+    }
+    .auth-footer a { color: var(--primary); font-weight: 600; }
+
+    /* Theme toggle pill */
+    .theme-pill {
+      position: fixed;
+      top: 1.25rem; right: 1.25rem;
+      background: var(--bg-card);
+      border-radius: 999px;
+      padding: .4rem .75rem;
+      box-shadow: var(--shadow-neu-sm);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; gap: .5rem;
+      cursor: pointer;
+      font-size: .8rem;
+      color: var(--text-secondary);
+      transition: var(--transition-base);
+      z-index: 100;
+    }
+    .theme-pill:hover { box-shadow: var(--shadow-neu-out); }
+  </style>
 </head>
 <body>
-    <div id="app">
-        <main class="auth-container page-enter">
-            <section class="neu-card" style="max-width: 400px; margin: 10vh auto; padding: 2rem;">
-                <h1 style="text-align: center;">Chley Weather</h1>
-                <p style="text-align: center; color: var(--text-secondary);">Faça login para continuar</p>
-                
-                <form id="login-form" style="margin-top: 2rem;">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-input" placeholder="seu@email.com" required>
-                    </div>
-                    <div class="form-group" style="margin-top: 1rem;">
-                        <label>Palavra-passe</label>
-                        <input type="password" class="form-input" placeholder="••••••••" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">
-                        Entrar
-                    </button>
-                </form>
-                <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem;">
-                    Não tem conta? <a href="frontend/pages/register.html">Registe-se</a>
-                </p>
-            </section>
-        </main>
+
+  <!-- Theme toggle -->
+  <button class="theme-pill" id="theme-pill" onclick="AppTheme.toggle()" aria-label="Alternar tema">
+    <span id="theme-pill-icon">☀️</span>
+    <span id="theme-pill-label">Claro</span>
+  </button>
+
+  <div class="auth-page">
+
+    <!-- ══ LEFT BRAND PANEL ══════════════════════════════════ -->
+    <div class="auth-left">
+      <div class="auth-left-grid"></div>
+      <div class="auth-left-orb orb-blue"></div>
+      <div class="auth-left-orb orb-indigo"></div>
+      <div class="auth-left-orb orb-orange"></div>
+
+      <div class="auth-brand-badge">
+        🌍 WeatherPro — IPIL Projecto #03
+      </div>
+
+      <h1 class="auth-left-title">
+        Previsão do tempo<br>em <span>tempo real</span>
+      </h1>
+
+      <p class="auth-left-desc">
+        Aceda a dados meteorológicos precisos para qualquer cidade do mundo. Acompanhe a previsão de 5 dias, humidade, vento e muito mais.
+      </p>
+
+      <div class="auth-feature-list">
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">⚡</div>
+          <span>Dados em tempo real via OpenWeatherMap</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">📍</div>
+          <span>Geolocalização automática</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">📅</div>
+          <span>Previsão detalhada para 5 dias</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">⭐</div>
+          <span>Guardar cidades favoritas</span>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon">📊</div>
+          <span>Exportar histórico em CSV e PDF</span>
+        </div>
+      </div>
+
+      <!-- Decorative weather widget -->
+      <div class="auth-weather-widget animate-float" style="animation-delay:1s;">
+        <div class="auth-weather-widget-city">📍 Luanda, AO</div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <span style="font-size:2.2rem;">☀️</span>
+          <div>
+            <div class="auth-weather-widget-temp">31°C</div>
+            <div class="auth-weather-widget-desc">Céu limpo</div>
+          </div>
+        </div>
+        <div class="auth-weather-widget-strip">
+          <div class="auth-weather-chip"><span>Humidade</span><strong>68%</strong></div>
+          <div class="auth-weather-chip"><span>Vento</span><strong>14 km/h</strong></div>
+          <div class="auth-weather-chip"><span>UV</span><strong>Alto</strong></div>
+        </div>
+      </div>
     </div>
 
-    <script src="assets/js/storage.js"></script>
-<script src="assets/js/api.js"></script>
-        // Lógica simples de ligação ao teu auth.js
-        document.getElementById('login-form').onsubmit = async (e) => {
-            e.preventDefault();
-            const email = e.target.querySelector('input[type="email"]').value;
-            const password = e.target.querySelector('input[type="password"]').value;
-            
-            // Simulação de chamada ao teu Auth Module
-            const success = await Auth.login(email, password);
-            if(success) window.location.href = 'frontend/pages/dashboard.html';
-        };
-    </script>
+    <!-- ══ RIGHT FORM PANEL ══════════════════════════════════ -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <div class="auth-card-inner">
+
+          <div class="auth-header">
+            <span class="auth-header-logo">🌤️</span>
+            <h1>Bem-vindo de volta</h1>
+            <p>Entre na sua conta para continuar</p>
+          </div>
+
+          <form id="login-form" novalidate autocomplete="on">
+
+            <!-- Email -->
+            <div class="form-group mb-4">
+              <label class="form-label" for="login-email">Email</label>
+              <div class="input-group">
+                <span class="input-icon">✉️</span>
+                <input
+                  type="email"
+                  id="login-email"
+                  name="email"
+                  class="form-input"
+                  placeholder="seu@email.com"
+                  autocomplete="email"
+                  required>
+              </div>
+              <span class="form-error hidden" id="err-email">⚠️ </span>
+            </div>
+
+            <!-- Senha -->
+            <div class="form-group mb-4">
+              <label class="form-label" for="login-password">Senha</label>
+              <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="login-password"
+                  name="password"
+                  class="form-input"
+                  placeholder="••••••••"
+                  autocomplete="current-password"
+                  required>
+                <button type="button" class="input-eye" id="toggle-pwd" onclick="LoginPage.togglePwd()" aria-label="Mostrar senha">
+                  👁️
+                </button>
+              </div>
+              <span class="form-error hidden" id="err-password">⚠️ </span>
+            </div>
+
+            <!-- Lembrar / Esqueci -->
+            <div class="auth-row">
+              <label>
+                <input type="checkbox" id="remember-me" style="accent-color:var(--primary);">
+                Lembrar-me
+              </label>
+              <a href="./forgot.html">Esqueceu a senha?</a>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-auth" id="login-btn">
+              <span id="login-btn-text">Entrar na conta</span>
+            </button>
+
+            <!-- Error box -->
+            <div class="auth-alert hidden" id="login-alert">
+              <span>❌</span>
+              <span id="login-alert-msg"></span>
+            </div>
+
+          </form>
+
+          <!-- Divider -->
+          <div class="auth-divider">ou aceda como visitante</div>
+
+          <!-- Demo account info -->
+          <div style="background:rgba(26,115,232,.07);border:1px solid rgba(26,115,232,.2);border-radius:12px;padding:.9rem 1rem;font-size:.82rem;color:var(--text-secondary);margin-bottom:1rem;">
+            <strong style="color:var(--primary);display:block;margin-bottom:.35rem;">🔑 Conta de demonstração</strong>
+            <span>admin@weather.ipil.ao</span> &nbsp;/&nbsp;
+            <span style="font-family:monospace;letter-spacing:.05em;">Admin@1234</span>
+            <button onclick="LoginPage.fillDemo()" style="display:block;margin-top:.5rem;background:none;border:none;color:var(--primary);font-size:.8rem;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;font-weight:600;">
+              ↗ Usar estas credenciais
+            </button>
+          </div>
+
+          <!-- Footer -->
+          <p class="auth-footer">
+            Não tem conta?
+            <a href="./register.html">Registrar-se gratuitamente</a>
+          </p>
+
+        </div><!-- /auth-card-inner -->
+      </div><!-- /auth-card -->
+    </div><!-- /auth-right -->
+
+  </div><!-- /auth-page -->
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- JS -->
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/language.js"></script>
+
+  <script>
+    /* ── Inline API base (standalone page, sem Router) ─────── */
+    const API_BASE = '../backend/public';
+
+    /* ── Tema standalone ─────────────────────────────────────── */
+    const AppTheme = {
+      get()     { return localStorage.getItem('ws_theme') || 'light'; },
+      set(t)    {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('ws_theme', t);
+        document.getElementById('theme-pill-icon').textContent  = t === 'dark' ? '🌙' : '☀️';
+        document.getElementById('theme-pill-label').textContent = t === 'dark' ? 'Escuro' : 'Claro';
+      },
+      toggle()  { this.set(this.get() === 'light' ? 'dark' : 'light'); },
+      init()    { this.set(this.get()); }
+    };
+    AppTheme.init();
+
+    /* ── Redirect se já autenticado ──────────────────────────── */
+    (() => {
+      const token = localStorage.getItem('ws_token');
+      if (token) window.location.href = './dashboard.html';
+    })();
+
+    /* ── Login Page Controller ───────────────────────────────── */
+    const LoginPage = {
+
+      fillDemo() {
+        document.getElementById('login-email').value    = 'admin@weather.ipil.ao';
+        document.getElementById('login-password').value = 'Admin@1234';
+        document.getElementById('login-email').dispatchEvent(new Event('input'));
+      },
+
+      togglePwd() {
+        const input = document.getElementById('login-password');
+        const btn   = document.getElementById('toggle-pwd');
+        input.type  = input.type === 'password' ? 'text' : 'password';
+        btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+      },
+
+      clearErrors() {
+        ['err-email','err-password'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) { el.classList.add('hidden'); el.textContent = '⚠️ '; }
+        });
+        ['login-email','login-password'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.borderColor = '';
+        });
+        document.getElementById('login-alert').classList.add('hidden');
+      },
+
+      showFieldError(fieldId, msg) {
+        const err   = document.getElementById(`err-${fieldId}`);
+        const input = document.getElementById(`login-${fieldId}`);
+        if (err)   { err.textContent = `⚠️ ${msg}`; err.classList.remove('hidden'); }
+        if (input) { input.style.borderColor = 'var(--danger)'; }
+      },
+
+      showAlert(msg) {
+        const box = document.getElementById('login-alert');
+        document.getElementById('login-alert-msg').textContent = msg;
+        box.classList.remove('hidden');
+      },
+
+      setLoading(state) {
+        const btn  = document.getElementById('login-btn');
+        const text = document.getElementById('login-btn-text');
+        btn.disabled = state;
+        text.innerHTML = state
+          ? '<span style="width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;"></span> A entrar...'
+          : 'Entrar na conta';
+      },
+
+      async submit(e) {
+        e.preventDefault();
+        this.clearErrors();
+
+        const email    = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        /* Validação client-side */
+        let ok = true;
+        if (!email)                               { this.showFieldError('email', 'Email obrigatório.'); ok = false; }
+        else if (!/\S+@\S+\.\S+/.test(email))    { this.showFieldError('email', 'Formato de email inválido.'); ok = false; }
+        if (!password)                            { this.showFieldError('password', 'Senha obrigatória.'); ok = false; }
+        if (!ok) return;
+
+        this.setLoading(true);
+
+        try {
+          const res = await fetch(`${API_BASE}/auth/login`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            this.showAlert(data.message || 'Credenciais incorretas.');
+            return;
+          }
+
+          /* Guardar sessão */
+          localStorage.setItem('ws_token', data.data.token);
+          localStorage.setItem('ws_user',  JSON.stringify(data.data.user));
+
+          /* Lembrar email */
+          if (document.getElementById('remember-me').checked) {
+            localStorage.setItem('ws_remember_email', email);
+          } else {
+            localStorage.removeItem('ws_remember_email');
+          }
+
+          /* Toast e redirect */
+          this._toast(`Bem-vindo, ${data.data.user.name}! ✅`);
+          setTimeout(() => { window.location.href = './dashboard.html'; }, 700);
+
+        } catch (err) {
+          this.showAlert('Falha na ligação ao servidor. Verifique a sua ligação.');
+        } finally {
+          this.setLoading(false);
+        }
+      },
+
+      _toast(msg) {
+        const el = document.createElement('div');
+        el.className = 'toast toast-success';
+        el.innerHTML = `<span class="toast-icon">✅</span><span>${msg}</span>`;
+        document.getElementById('toast-container').appendChild(el);
+        setTimeout(() => el.remove(), 3400);
+      },
+
+      init() {
+        /* Pré-preencher email lembrado */
+        const saved = localStorage.getItem('ws_remember_email');
+        if (saved) {
+          document.getElementById('login-email').value = saved;
+          document.getElementById('remember-me').checked = true;
+        }
+
+        /* Submit */
+        document.getElementById('login-form').addEventListener('submit', e => this.submit(e));
+
+        /* Limpar erro ao digitar */
+        ['login-email','login-password'].forEach(id => {
+          document.getElementById(id)?.addEventListener('input', () => this.clearErrors());
+        });
+
+        /* Enter no campo email vai para senha */
+        document.getElementById('login-email')?.addEventListener('keydown', e => {
+          if (e.key === 'Enter') { e.preventDefault(); document.getElementById('login-password').focus(); }
+        });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => LoginPage.init());
+  </script>
 </body>
 </html>

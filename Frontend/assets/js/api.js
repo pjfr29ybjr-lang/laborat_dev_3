@@ -4,7 +4,8 @@
  */
 
 const API = (() => {
-  const BASE_URL = 'http://localhost/weather-app/backend/index.php';
+  // api.js
+const BASE_URL = 'http://localhost/weather-app/backend/index.php'; // Certifica-te que não tem / no fim
 
   const getToken = () => Storage.get('token');
 

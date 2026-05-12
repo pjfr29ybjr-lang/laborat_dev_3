@@ -17,6 +17,22 @@ class FavoriteController {
         $this->model = new FavoriteModel();
     }
 
+    private function parseBody(): array {
+        $input = file_get_contents('php://input');
+
+        if ($input === false || trim($input) === '') {
+            return $_POST ?? [];
+        }
+
+        $data = json_decode($input, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+            return $data;
+        }
+
+        parse_str($input, $parsed);
+        return is_array($parsed) ? $parsed : [];
+    }
+
     // ── GET /api/favorites ──────────────────────────────────
 
     public function index(): void {

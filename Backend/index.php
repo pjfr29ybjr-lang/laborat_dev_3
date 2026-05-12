@@ -1,19 +1,12 @@
 <?php
 /**
- * API Entry Point — Router
- * weather-system/backend/public/index.php
- *
- * Place this file at the web root or configure Apache/Nginx
- * to point to backend/public/
- *
- * Example Apache .htaccess (backend/public/.htaccess):
- *   RewriteEngine On
- *   RewriteCond %{REQUEST_FILENAME} !-f
- *   RewriteRule ^(.*)$ index.php [QSA,L]
+ * API Entry Point — Router (CORRIGIDO PARA O XAMPP LOCAL)
+ * weather-system/Backend/index.php
  */
 
 // ── Bootstrap ──────────────────────────────────────────────
-define('BASE_PATH', dirname(__DIR__));
+// CORREÇÃO 1: Usa __DIR__ para o PHP não se perder a procurar as pastas
+define('BASE_PATH', __DIR__);
 
 require_once BASE_PATH . '/config/app.php';
 require_once BASE_PATH . '/config/database.php';
@@ -26,8 +19,9 @@ CorsMiddleware::handle();
 $method = $_SERVER['REQUEST_METHOD'];
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Strip possible prefix like /api or /backend/public
-$uri = preg_replace('#^(/backend/public|/api)#', '', $uri);
+// CORREÇÃO 2: Limpa o caminho específico do teu localhost para o roteador funcionar
+// Esta linha agora ignora o index.php quando o roteador for processar a rota
+$uri = preg_replace('#^(/weather-app/Backend/index.php|/weather-app/Backend|/api)#i', '', $uri);
 $uri = rtrim($uri, '/') ?: '/';
 
 // Split for param extraction
@@ -149,22 +143,26 @@ try {
         })(),
 
         // Health check
-        $uri === '/health' => Response::success(['status' => 'ok', 'version' => APP_VERSION]),
+        $uri === '/health' => Response::success(['status' => 'ok', 'version' => defined('APP_VERSION') ? APP_VERSION : '1.0.0']),
 
         // 404
         default => Response::notFound("Rota não encontrada: $method $uri"),
     };
 
 } catch (Throwable $e) {
-    if (APP_DEBUG) {
+    // CORREÇÃO 3: Garante que os erros são mostrados para ajudar no Debug
+    $debug = defined('APP_DEBUG') ? APP_DEBUG : true;
+    if ($debug) {
         Response::serverError($e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     } else {
-        require_once BASE_PATH . '/utils/Logger.php';
-        Logger::error('Unhandled exception', [
-            'message' => $e->getMessage(),
-            'file'    => $e->getFile(),
-            'line'    => $e->getLine(),
-        ]);
+        if (file_exists(BASE_PATH . 'utils/Logger.php')) {
+            require_once BASE_PATH . 'utils/Logger.php';
+            Logger::error('Unhandled exception', [
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+            ]);
+        }
         Response::serverError('Erro interno do servidor.');
     }
 }

@@ -18,14 +18,14 @@ const Auth = (() => {
 
   // ── Login ────────────────────────────────────────────────
   const login = async (email, password) => {
-    const data = await API.post('/auth/login', { email, password });
+    const data = await API.post('auth/login', { email, password });
     _storeSession(data.data);
     return data.data;
   };
 
   // ── Register ─────────────────────────────────────────────
   const register = async (name, email, password, password_confirm) => {
-    const data = await API.post('/auth/register', { name, email, password, password_confirm });
+    const data = await API.post('auth/register', { name, email, password, password_confirm });
     _storeSession(data.data);
     return data.data;
   };
@@ -41,7 +41,7 @@ const Auth = (() => {
   // ── Fetch current user from backend ──────────────────────
   const refreshUser = async () => {
     try {
-      const data = await API.get('/auth/me');
+      const data = await API.get('auth/me');
       currentUser = data.data;
       Storage.set('user', currentUser);
       return currentUser;

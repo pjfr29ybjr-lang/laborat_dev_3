@@ -15,8 +15,8 @@ const Weather = (() => {
     try {
       const lang = Language.getLanguage();
       const [wRes, fRes] = await Promise.all([
-        API.get(`/weather/current?city=${encodeURIComponent(city)}&units=${units}&lang=${lang}`),
-        API.get(`/weather/forecast?city=${encodeURIComponent(city)}&units=${units}&lang=${lang}`),
+      API.get(`weather/current?city=${encodeURIComponent(city)}&units=${units}&lang=${lang}`),
+      API.get(`weather/forecast?city=${encodeURIComponent(city)}&units=${units}&lang=${lang}`),
       ]);
       currentWeather  = wRes.data;
       currentForecast = fRes.data;
@@ -32,9 +32,9 @@ const Weather = (() => {
     try {
       const lang = Language.getLanguage();
       const [wRes, fRes] = await Promise.all([
-        API.get(`/weather/coords?lat=${lat}&lon=${lon}&units=${units}&lang=${lang}`),
-        API.get(`/weather/forecast-coords?lat=${lat}&lon=${lon}&units=${units}&lang=${lang}`),
-      ]);
+       API.get(`weather/coords?lat=${lat}&lon=${lon}&units=${units}&lang=${lang}`),
+       API.get(`weather/forecast-coords?lat=${lat}&lon=${lon}&units=${units}&lang=${lang}`),
+]);
       currentWeather  = wRes.data;
       currentForecast = fRes.data;
       renderCurrentWeather(currentWeather);
