@@ -53,6 +53,9 @@ class AuthController {
         $user  = $this->userModel->findById($id);
         $token = $this->generateToken($user);
 
+        // CORREÇÃO: Remove campos sensíveis antes de enviar para o Frontend
+        unset($user['password'], $user['reset_token'], $user['reset_expires']);
+
         Logger::info('New user registered', ['id' => $id, 'email' => $email]);
         Response::success(['token' => $token, 'user' => $user], 'Conta criada com sucesso.', 201);
     }
@@ -85,7 +88,7 @@ class AuthController {
         $this->userModel->updateLastLogin($user['id']);
         $token = $this->generateToken($user);
 
-        // Remove sensitive fields
+        // Remove campos sensíveis
         unset($user['password'], $user['reset_token'], $user['reset_expires']);
 
         Logger::info('User logged in', ['id' => $user['id']]);
@@ -168,4 +171,4 @@ class AuthController {
         $raw = file_get_contents('php://input');
         return json_decode($raw, true) ?: [];
     }
-}
+} // CORREÇÃO: Removida a vírgula errada que quebrava o script

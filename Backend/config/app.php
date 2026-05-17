@@ -16,7 +16,7 @@ define('OWM_GEO_URL', 'https://api.openweathermap.org/geo/1.0');
 // App
 define('APP_NAME',    'Weather System');
 define('APP_VERSION', '1.0.0');
-define('APP_ENV',     getenv('APP_ENV') ?: 'production');
+define('APP_ENV',     getenv('APP_ENV') ?: 'development');
 define('APP_DEBUG',   APP_ENV === 'development');
 
 // CORS origins (comma-separated in env)
