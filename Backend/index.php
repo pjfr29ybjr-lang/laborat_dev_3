@@ -21,8 +21,8 @@ $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // CORREÇÃO 2: Limpa o caminho específico do teu localhost para o roteador funcionar
 // Esta linha agora ignora o index.php quando o roteador for processar a rota
-$uri = preg_replace('#^(/weather-app/Backend/index.php|/weather-app/Backend|/api)#i', '', $uri);
-$uri = rtrim($uri, '/') ?: '/';
+$uri = preg_replace('#^(/weather-app/Backend/index\.php|/weather-app/Backend|/weather-app|/api)#i', '', $uri);
+$uri = $uri ?: '/';
 
 // Split for param extraction
 $segments = explode('/', ltrim($uri, '/'));
