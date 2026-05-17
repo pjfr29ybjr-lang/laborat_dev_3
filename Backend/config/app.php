@@ -9,7 +9,7 @@ define('JWT_SECRET',  getenv('JWT_SECRET')  ?: 'your-super-secret-jwt-key-change
 define('JWT_EXPIRE',  (int)(getenv('JWT_EXPIRE')  ?: 86400)); // 24h in seconds
 
 // OpenWeatherMap
-define('OWM_API_KEY', getenv('OWM_API_KEY') ?: 'YOUR_OPENWEATHERMAP_API_KEY');
+define('OWM_API_KEY', getenv('OWM_API_KEY') ?: 'e6332f743042227acae8c1265ed9ee14');
 define('OWM_BASE_URL','https://api.openweathermap.org/data/2.5');
 define('OWM_GEO_URL', 'https://api.openweathermap.org/geo/1.0');
 

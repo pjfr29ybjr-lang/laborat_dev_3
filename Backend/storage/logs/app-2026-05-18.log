@@ -1,1 +1,12 @@
 [2026-05-18 00:16:55] [INFO] New user registered {"id":2,"email":"logic@ig.com"}
+[2026-05-18 00:18:49] [INFO] User logged in {"id":2}
+[2026-05-18 00:52:37] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 00:53:16] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 00:53:42] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 00:57:06] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 00:59:32] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 01:01:55] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 01:02:16] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 01:02:46] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
+[2026-05-18 01:07:18] [INFO] User logged in {"id":2}
+[2026-05-18 01:07:21] [WARNING] Failed to save search history {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_system.search_history' doesn't exist"}
